@@ -7,8 +7,8 @@ let naoAutomatizaveis:number = 0;
 
 for(let i = 1; i<=5; i++){
     const cenario: String = prompt(`Digite o ${i}° cenário: `);
-    const resposta: String = prompt(`É automatizavél? (sim/não): `)
-    resposta.toLowerCase();
+    const resposta: String = prompt(`É automatizavél? (sim/não): `).toLowerCase();
+    
 
     if(resposta === "sim"){
         console.log(`${cenario} -> Automatizar`);
@@ -24,8 +24,3 @@ for(let i = 1; i<=5; i++){
 console.log(`Total de cenários Automatizaveis: ${automatizaveis}`)
 console.log(`Total de cenários não Automatizaveis: ${naoAutomatizaveis}`)
 
-//cenário: fazer login com email e senha valido
-//Buscar livros na barra de pesquisa
-// Alterar dados cadastrais
-//filtrar livros por genero
-//fazer login com rede social
