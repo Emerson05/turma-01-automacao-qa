@@ -34,7 +34,7 @@ function marcarAutomatizado(casoDeTeste: CasoDeTeste): CasoDeTeste {
 }
 
 const primeiroCasoDeTeste = criarCasoDeTeste(
-  1,
+  "1",
   "Login com credenciais válidas",
   "Validar acesso ao sistema ao inserir e-mail e senha válidos"
 );
