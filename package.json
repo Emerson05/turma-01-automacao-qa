@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "type-check": "tsc --noEmit",
-    "dev": "npm run type-check && tsx src/aula26/promise.js",
+    "dev": "npm run type-check && tsx src/atividades/casos-de-testes.ts",
     "build": "tsc",
     "start": "node ."
   },
