@@ -46,4 +46,4 @@ Este projeto contém a definição de tipos, criação e manipulação de Casos 
 
     Argument of type 'string' is not assignable to parameter of type 'number'.
 
-    ![alt text](image.png)
+    <img width="1353" height="266" alt="image" src="https://github.com/user-attachments/assets/d8361f61-4799-4c72-94cc-dcbc3bff36c0" />
