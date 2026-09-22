@@ -8,6 +8,7 @@ interface TestExecution {
   durationMs: number;
 }
 
+// 1. Arrays e Objetos tipados
 const testExecutions: TestExecution[] = [
   { id: 1, testName: 'Login com credenciais válidas', status: 'passed', durationMs: 450 },
   { id: 2, testName: 'Login com senha incorreta', status: 'passed', durationMs: 320 },
@@ -17,6 +18,7 @@ const testExecutions: TestExecution[] = [
   { id: 6, testName: 'Atualização de perfil com avatar', status: 'failed', durationMs: 980 }
 ];
 
+// 2. Operações sobre arrays: map, filter e reduce
 const testSummaries = testExecutions.map((execution) => {
   return `${execution.testName}: ${execution.status.toUpperCase()}`;
 });
@@ -30,8 +32,15 @@ const totalDurationMs = testExecutions.reduce((accumulator, execution) => {
 }, 0);
 
 
+/**
+ * FLUXO ASSÍNCRONO:
+ * 1. 'async' faz a função retornar uma Promise<TestExecution>.
+ * 2. 'await' + 'setTimeout' delega a espera de 100ms para o ambiente e libera o Event Loop sem travar a thread.
+ * 3. Após 100ms, 'resolve()' é chamado, a Promise é cumprida e a execução é retomada.
+ * 4. Se o ID for encontrado, retorna o objeto; se não, lança um erro e rejeita a Promise.
+ */
 async function getTestExecutionById(id: number): Promise<TestExecution> {
-
+  // Simula latência de rede sem bloquear o Event Loop
   await new Promise((resolve) => setTimeout(resolve, 100));
 
   const foundExecution = testExecutions.find((execution) => execution.id === id);
@@ -80,7 +89,7 @@ describe('Suíte de Testes - Automação QA', () => {
   describe('getTestExecutionById - Caminho de Erro', () => {
     test('deve lançar um erro quando o id não for encontrado', async () => {
       const invalidId = 999;
-
+      // O 'expect' espera uma Promise rejeitada devido ao fluxo assíncrono
       await expect(getTestExecutionById(invalidId)).rejects.toThrow(
         `Execução de teste com ID ${invalidId} não foi encontrada.`
       );
