@@ -70,9 +70,10 @@ async function atualizarPostagemCompleta(id: number): Promise<Postagem>{
 
     console.log('Corpo Recebido')
     
-
+    
 }
 
+//Patch: Deletar um id
 async function deletar(id:number): Promise<void> {
     const res = await fetch( `https://jsonplaceholder.typicode.com/posts/${id}`,{
         method:'DELETE'
