@@ -1,129 +1,121 @@
-import { title } from "node:process";
-
 interface Postagem {
     id: number;
     title: string;
-    body: string
+    body: string;
+    userId: number;
 }
 
-// //Get - Buscar post
-
-async function buscarPostagem(id: number): Promise<Postagem> {
+// GETS Solicitar dados e Postagem
+export async function buscarPostagem(id: number): Promise<Postagem> {
     const res = await fetch(
-        `https://jsonplaceholder.typicode.com/posts/${id}/comments`
+        `https://jsonplaceholder.typicode.com/posts/${id}`
     );
-    console.log('STATUS: ')
-    console.log(res.status)
 
-    const resGet = await res.json() as Promise<Postagem>
-    return resGet
-}
+    console.log('STATUS:', res.status);
 
-//Post: Cria uma nova postagem
-
-async function criarPostagem(): Promise<Postagem> {
-    const res = await fetch(
-        `https://jsonplaceholder.typicode.com/posts/`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': "application/json"
-        },
-        body: JSON.stringify({
-            title: "Minha Primeira Postagem",
-            body: "Sempre a Subir",
-            userId: 1
-        }),
-    });
-
-    console.log('STATUS')
-    console.log(res.status)
-
-    const resPost = await res.json() as Promise<Postagem>;
-    return resPost;
-
-
-}
-
-//Put: Atualiar Postagem
-async function atualizarPostagemCompleta(id: number): Promise<Postagem>{
-    const corpoEnviado = 
-    {   
-
-        title:'Atualização da minha primeira postagem',
-        body: 'Aqui tem uma nova descrição',
-        userId: 2
+    if (!res.ok) {
+        throw new Error(`Erro ao buscar postagem: ${res.status}`);
     }
+
+    return await res.json() as Postagem;
+}
+
+
+// POST Enviar dados para um servidor
+export async function criarPostagem(
+    postagem: Omit<Postagem, 'id'>
+): Promise<Postagem> {
+
     const res = await fetch(
-        `https://jsonplaceholder.typicode.com/posts/${id}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': "application/json"
-        },
-        body: JSON.stringify(corpoEnviado),
-    });
+        'https://jsonplaceholder.typicode.com/posts',
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(postagem)
+        }
+    );
 
-    console.log('Corpo Enviado')
-    console.log(corpoEnviado)
+    console.log('STATUS:', res.status);
 
-    console.log('STATUS')
-    console.log(res.status)
-
-    console.log('Corpo Recebido')
-    
-    
-}
-
-//Patch: Deletar um id
-async function deletar(id:number): Promise<void> {
-    const res = await fetch( `https://jsonplaceholder.typicode.com/posts/${id}`,{
-        method:'DELETE'
-    });
-
-    console.log('Status:')
-    console.log(res.status)
-
-}
-
-//Patch: Atualiar apenas um Campo
-async function atualizarCampo(id: number): Promise<Postagem>{
-
-    const corpoEnviado = 
-    {   
-
-        title:'Novo Titulo',
-       
+    if (!res.ok) {
+        throw new Error(`Erro ao criar postagem: ${res.status}`);
     }
-      const res = await fetch( `https://jsonplaceholder.typicode.com/posts/${id}`,{
-        method:'PATCH',
-        headers:{
-            'Content-Type': "application/json"
-        },
 
-        body: JSON.stringify(corpoEnviado)
-
-
-    });
-     console.log('Corpo Enviado')
-     console.log(corpoEnviado)
-     console.log('Status:')
-     console.log(res.status)
-     console.log('Corpo Enviado')
-
-     const resPatch = await res.json() as Promise<Postagem>
-     return resPatch
-
+    return await res.json() as Postagem;
 }
 
-const post = await criarPostagem();
-console.log(post)
 
-const get = await buscarPostagem(15);
-console.log (get)
+// PUT Atualizar Uma postagem
+export async function atualizarPostagemCompleta(
+    id: number,
+    postagem: Omit<Postagem, 'id'>
+): Promise<Postagem> {
 
-const put = await atualizarPostagemCompleta(15)
-console.log(put)
+    const res = await fetch(
+        `https://jsonplaceholder.typicode.com/posts/${id}`,
+        {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(postagem)
+        }
+    );
 
-deletar(15);
+    console.log('STATUS:', res.status);
 
-const patch = await atualizarCampo(15)
-console.log(patch)
+    if (!res.ok) {
+        throw new Error(`Erro ao atualizar postagem: ${res.status}`);
+    }
+
+    return await res.json() as Postagem;
+}
+
+
+// PATCH Atualizar um campo de uma Postagem
+export async function atualizarCampo(
+    id: number,
+    campos: Partial<Omit<Postagem, 'id'>>
+): Promise<Postagem> {
+
+    const res = await fetch(
+        `https://jsonplaceholder.typicode.com/posts/${id}`,
+        {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(campos)
+        }
+    );
+
+    console.log('STATUS:', res.status);
+
+    if (!res.ok) {
+        throw new Error(`Erro ao atualizar campo: ${res.status}`);
+    }
+
+    return await res.json() as Postagem;
+}
+
+
+// DELETE
+export async function deletar(id: number): Promise<boolean> {
+
+    const res = await fetch(
+        `https://jsonplaceholder.typicode.com/posts/${id}`,
+        {
+            method: 'DELETE'
+        }
+    );
+
+    console.log('STATUS:', res.status);
+
+    if (!res.ok) {
+        throw new Error(`Erro ao deletar postagem: ${res.status}`);
+    }
+
+    return true;
+}
