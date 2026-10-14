@@ -1,8 +1,8 @@
-import {test,expect} from "@playwright/test";
+import {test,expect, type Page} from "@playwright/test";
 import { login } from "../helpers/auth";
 
 
-test.beforeEach(async({page})=>{
+test.beforeEach(async({page}: {page: Page})=>{
     await login(page);
 });
 
@@ -44,5 +44,34 @@ test.describe("Verifica interações com elementos do produto Sauce Labs Onesie"
         await page.click('#item_2_img_link');
         await expect(page).toHaveURL('https://www.saucedemo.com/inventory-item.html?id=2');
         await expect(page.locator('#root')).toBeVisible();
+    });
+    
+ test("validar redirecionamento para a página de detalhes do produto ao clicar no nome do produto", async({page})=>{
+        await page.click('#item_2_title_link');
+        await expect(page).toHaveURL(/inventory-item.html/);
+        await expect(page.locator('.inventory_details_container')).toBeVisible();
+    });
+
+    test("validar adição do produto ao carrinho ao clicar no botão 'Add to cart'", async({page})=>{
+        await page.getByTestId('add-to-cart-sauce-labs-onesie').click();
+        await page.click('.shopping_cart_link');
+        await expect(page).toHaveURL(/cart.html/);
+        await expect(page.locator('.cart_quantity')).toHaveText('1');
+    });
+
+    test("validar remoção do produto do carrinho ao clicar no botão 'Remove'", async({page})=>{
+        await page.getByTestId('add-to-cart-sauce-labs-onesie').click();
+        await page.click('.shopping_cart_link');
+        await expect(page).toHaveURL(/cart.html/);
+        await page.click('#remove-sauce-labs-onesie');
+        await expect(page.locator('.cart_quantity')).not.toBeVisible();
+    });
+
+    test("validar alteração do botão para 'Remove' após adicionar o produto", async({page})=>{
+        const button = page.getByTestId('add-to-cart-sauce-labs-onesie');
+
+        await button.click();
+
+        await expect(page.locator('#remove-sauce-labs-onesie')).toHaveText('Remove');
     });
 });
