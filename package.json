@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
   "name": "playwright",
   "version": "1.0.0",
   "main": "index.js",
@@ -9,25 +8,4 @@
     "@types/node": "^26.6.3"
   },
   "scripts": {}
-=======
-  "name": "automacao-qa",
-  "main": "dist/aula25/index.js",
-  "type": "module",
-  "scripts": {
-    "type-check": "tsc --noEmit",
-    "dev": "npm run type-check && tsx src/atividades/casos-de-testes.ts",
-    "build": "tsc",
-    "start": "node ."
-  },
-  "devDependencies": {
-    "@types/node": "^26.5.0",
-    "@types/prompt-sync": "^4.2.3",
-    "tsx": "^4.23.13",
-    "typescript": "^7.0.2",
-    "vitest": "^5.0.1"
-  },
-  "dependencies": {
-    "prompt-sync": "^4.2.0"
-  }
->>>>>>> f9b85884e2079cfac632c412cbb8360d200104f7
 }
