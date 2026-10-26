@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 # Playwright
 node_modules/
@@ -6,3 +7,9 @@ node_modules/
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+=======
+node_modules/
+dist/
+*.js
+.vitest/
+>>>>>>> f9b85884e2079cfac632c412cbb8360d200104f7
